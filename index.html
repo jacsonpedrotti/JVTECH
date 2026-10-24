@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J.V TECH — Conserto de computadores e serviços de TI</title>
+  <meta name="description" content="J.V TECH faz conserto de computadores e notebooks, formatação, upgrade, redes e suporte de TI. Diagnóstico claro e orçamento antes da peça.">
+  <meta name="theme-color" content="#090d12">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23101820'/%3E%3Cpath d='M41 38V68Q41 94 20 88' fill='none' stroke='%23f7f4ee' stroke-width='9' stroke-linecap='round'/%3E%3Cpath d='M58 36L78 96L106 36' fill='none' stroke='%23f7f4ee' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='41' cy='33' r='5' fill='%23e0a15c'/%3E%3Ccircle cx='106' cy='36' r='4.6' fill='%237eebdf'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #101820;
+      --deep: #090d12;
+      --paper: #f3efe6;
+      --card: #fffdf8;
+      --copper: #e0a15c;
+      --copper-deep: #a56a2c;
+      --cyan: #8ef3e8;
+      --muted: #5c6b78;
+      --mist: #c5d0db;
+      --line: rgba(16, 24, 32, 0.1);
+      --header: 76px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Outfit", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.5;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    :focus-visible { outline: 2px solid var(--copper); outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .skip {
+      position: absolute;
+      left: 12px;
+      top: -40px;
+      background: var(--copper);
+      color: var(--ink);
+      padding: 8px 12px;
+      z-index: 80;
+    }
+    .skip:focus { top: 12px; }
+
+    .wrap { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+    .kicker {
+      margin: 0 0 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--copper-deep);
+    }
+    .dark .kicker, .site-header .kicker { color: var(--copper); }
+    h1, h2, h3, .brand-name, .brand-tech {
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    }
+    h1, h2 { letter-spacing: -0.045em; line-height: 0.98; margin: 0; }
+    h2 { font-size: clamp(32px, 4vw, 52px); max-width: 16em; }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 50;
+      height: var(--header);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 28px;
+      color: #f7f4ee;
+    }
+    .site-header.is-stuck {
+      background: rgba(9, 13, 18, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #f7f4ee;
+      margin-right: auto;
+    }
+    .brand-mark { width: 46px; height: 46px; flex: none; }
+    .brand-name { font-weight: 700; font-size: 22px; letter-spacing: -0.05em; }
+    .brand-tech {
+      margin-left: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      color: var(--copper);
+    }
+    .nav { display: flex; align-items: center; gap: 26px; }
+    .nav a { text-decoration: none; color: var(--mist); font-size: 15px; }
+    .nav a:hover { color: #fff; }
+    .menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: transparent;
+      color: #fff;
+      position: relative;
+    }
+    .menu-btn i {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      height: 1.5px;
+      background: currentColor;
+    }
+    .menu-btn i:first-of-type { top: 17px; }
+    .menu-btn i:last-of-type { top: 25px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--copper); color: #1a1208; }
+    .btn-primary:hover { background: #f0b56e; }
+    .btn-ghost { border-color: rgba(255, 255, 255, 0.3); color: #f7f4ee; background: transparent; }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+    .btn-ink { background: var(--ink); color: var(--paper); }
+    .btn-ink:hover { background: #243140; }
+    .header-cta { min-height: 42px; }
+
+    .hero {
+      background:
+        radial-gradient(700px 380px at 12% 0%, rgba(224, 161, 92, 0.16), transparent 60%),
+        var(--deep);
+      color: #f7f4ee;
+      padding: calc(var(--header) + 28px) 24px 72px;
+    }
+    .hero-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero h1 { font-size: clamp(44px, 5.2vw, 76px); max-width: 10em; }
+    .lede { font-size: 18px; color: var(--mist); max-width: 38em; }
+    .hero .lede { margin: 18px 0 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .hero-photo {
+      margin: 0;
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      max-height: 700px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 68%; }
+    .hero-photo figcaption {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(9, 13, 18, 0.72);
+      color: #f7f4ee;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    .trust {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 48px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .trust strong { display: block; font-family: "Space Grotesk", sans-serif; font-size: 18px; }
+    .trust span { color: var(--mist); font-size: 14px; }
+
+    .services { padding: 88px 0; background: var(--paper); }
+    .section-head { margin-bottom: 28px; }
+    .section-head .lede { margin: 12px 0 0; }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .service {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+    }
+    .service:hover { border-color: rgba(165, 106, 44, 0.45); }
+    .icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(224, 161, 92, 0.16);
+      color: var(--copper-deep);
+    }
+    .icon svg { width: 24px; height: 24px; }
+    .service h3 { margin: 14px 0 8px; font-size: 22px; letter-spacing: -0.03em; }
+    .service p { margin: 0; color: var(--muted); }
+
+    .band { position: relative; min-height: 560px; display: grid; align-items: end; color: #f7f4ee; }
+    .band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .band-copy {
+      position: relative;
+      width: min(640px, calc(100% - 48px));
+      margin: 36px;
+      padding: 28px;
+      border-radius: 22px;
+      background: rgba(9, 13, 18, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .band-copy p:last-child { margin: 12px 0 0; color: var(--mist); }
+
+    .about { padding: 88px 0; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .about-photo {
+      margin: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      min-height: 460px;
+    }
+    .about-photo img { width: 100%; height: 100%; object-fit: cover; min-height: 460px; }
+    .points { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 14px; }
+    .points li {
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    .points i {
+      width: 10px;
+      height: 10px;
+      margin-top: 7px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--copper), var(--cyan));
+    }
+    .points strong { display: block; }
+    .points span { color: var(--muted); }
+
+    .gallery { padding: 88px 0; background: var(--deep); color: #f7f4ee; }
+    .gallery .lede { color: var(--mist); }
+    .mosaic {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      grid-template-rows: 280px 280px;
+      gap: 14px;
+    }
+    .mosaic figure { margin: 0; position: relative; overflow: hidden; border-radius: 20px; }
+    .mosaic figure:first-child { grid-row: 1 / span 2; }
+    .mosaic img { width: 100%; height: 100%; object-fit: cover; }
+    .mosaic figcaption {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 28px 16px 14px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+      font-size: 15px;
+    }
+
+    .process { padding: 88px 0 20px; }
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .steps li {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+    }
+    .steps span {
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--copper-deep);
+      letter-spacing: 0.14em;
+      font-size: 13px;
+    }
+    .steps h3 { margin: 10px 0 8px; font-size: 24px; }
+    .steps p { margin: 0; color: var(--muted); }
+
+    .faq { padding: 48px 0 88px; }
+    .faq-list { display: grid; gap: 10px; }
+    details {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { margin: 10px 0 0; color: var(--muted); }
+
+    .contact { padding: 88px 0; background: var(--deep); color: #f7f4ee; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+    .contact-card {
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      min-height: 460px;
+    }
+    .contact-card img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .contact-card div {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 28px;
+      background: linear-gradient(transparent, rgba(9, 13, 18, 0.88) 55%);
+    }
+    .contact-card a { color: var(--cyan); }
+    .form {
+      background: var(--card);
+      color: var(--ink);
+      border-radius: 28px;
+      padding: 28px;
+    }
+    .form h2 { font-size: clamp(30px, 3vw, 42px); }
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+    .fields label { display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+    .span-2 { grid-column: 1 / -1; }
+    input, select, textarea {
+      width: 100%;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid rgba(16, 24, 32, 0.14);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    textarea { min-height: 120px; resize: vertical; }
+    .form .btn { margin-top: 16px; }
+    .fine { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+    .ok h3 { margin: 8px 0; font-size: 32px; }
+
+    .site-footer { background: #070b10; color: var(--mist); padding: 36px 0 28px; }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a { color: var(--mist); text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+    .legal { margin: 22px 0 0; font-size: 13px; }
+
+    @media (max-width: 980px) {
+      .hero-inner, .about-grid, .contact-grid, .service-grid, .steps { grid-template-columns: 1fr 1fr; }
+      .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 240px 240px; }
+      .mosaic figure:first-child { grid-row: auto; grid-column: 1 / -1; min-height: 300px; }
+      .trust { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 800px) {
+      .menu-btn { display: inline-block; }
+      .header-cta { display: none; }
+      .nav {
+        display: none;
+        position: fixed;
+        inset: var(--header) 0 0 0;
+        background: rgba(9, 13, 18, 0.98);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 28px;
+        gap: 18px;
+      }
+      .nav.is-open { display: flex; }
+      .nav a { font-size: 22px; color: #f7f4ee; }
+      .hero-inner, .about-grid, .contact-grid, .service-grid, .steps, .fields { grid-template-columns: 1fr; }
+      .hero-photo { aspect-ratio: 16 / 10; max-height: none; }
+      .mosaic { grid-template-columns: 1fr; grid-template-rows: none; }
+      .mosaic figure, .mosaic figure:first-child { min-height: 240px; grid-column: auto; }
+      .band-copy { margin: 20px; }
+      .site-header { padding: 0 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body id="topo">
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="shell" x1="16" y1="8" x2="112" y2="124" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#1c3146"/>
+        <stop offset="1" stop-color="#0b121a"/>
+      </linearGradient>
+      <linearGradient id="copper" x1="0" y1="0" x2="1" y2="1">
+        <stop stop-color="#f6d7a8"/>
+        <stop offset="0.5" stop-color="#e3a45a"/>
+        <stop offset="1" stop-color="#c47d34"/>
+      </linearGradient>
+      <linearGradient id="signal" x1="0" y1="1" x2="1" y2="0">
+        <stop stop-color="#d9fff8"/>
+        <stop offset="1" stop-color="#1ec4c0"/>
+      </linearGradient>
+      <symbol id="mark" viewBox="0 0 128 128">
+        <rect x="4" y="4" width="120" height="120" rx="32" fill="url(#shell)"/>
+        <rect x="10.5" y="10.5" width="107" height="107" rx="27" fill="none" stroke="#e0a15c" stroke-opacity="0.5" stroke-width="1.25"/>
+        <path d="M28 24 H96" fill="none" stroke="#7eebdf" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+        <circle cx="28" cy="24" r="2.2" fill="#7eebdf"/>
+        <circle cx="96" cy="24" r="2.2" fill="#e0a15c"/>
+        <path d="M41 38 V68 Q41 94 20 88" fill="none" stroke="#f7f4ee" stroke-width="9" stroke-linecap="round"/>
+        <path d="M58 36 L78 96 L106 36" fill="none" stroke="#f7f4ee" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="41" cy="33" r="5" fill="url(#copper)"/>
+        <circle cx="106" cy="36" r="4.6" fill="url(#signal)"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <a class="brand" href="#topo" aria-label="J.V TECH, início">
+      <svg class="brand-mark" viewBox="0 0 128 128" role="img" aria-label="Selo J.V TECH">
+        <use href="#mark"/>
+      </svg>
+      <span><span class="brand-name">J.V</span><span class="brand-tech">TECH</span></span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Seções">
+      <a href="#servicos">Serviços</a>
+      <a href="#sobre">A oficina</a>
+      <a href="#trabalhos">Imagens</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a class="btn btn-primary header-cta" href="#contato">Pedir orçamento</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="sr">Abrir menu</span>
+      <i></i><i></i>
+    </button>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <p class="kicker">Conserto · Suporte · Redes</p>
+          <h1>A máquina volta. O trabalho continua.</h1>
+          <p class="lede">Conserto de computadores e notebooks, formatação, upgrade e suporte de TI. A J.V TECH explica o defeito, passa o valor e só troca peça com a sua autorização.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contato">Pedir orçamento</a>
+            <a class="btn btn-ghost" href="#servicos">Ver serviços</a>
+          </div>
+        </div>
+        <figure class="hero-photo">
+          <img src="images/escritorio.jpg" width="1920" height="1080" alt="Notebook aberto sobre a mesa, com a tela acesa em luz azul e cobre." fetchpriority="high">
+          <figcaption>Notebook, desktop e rede</figcaption>
+        </figure>
+      </div>
+      <div class="wrap trust">
+        <p><strong>Diagnóstico primeiro</strong><span>Você sabe o que será feito antes de autorizar.</span></p>
+        <p><strong>No local ou remoto</strong><span>Conforme o defeito, a visita ou o acesso à distância.</span></p>
+        <p><strong>Garantia do serviço</strong><span>O que a oficina executou volta coberto.</span></p>
+      </div>
+    </section>
+
+    <section class="services" id="servicos">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Serviços</p>
+          <h2>Do notebook lento à rede da empresa.</h2>
+          <p class="lede">Um lugar só para o computador de casa e para as máquinas de quem trabalha.</p>
+        </div>
+        <div class="service-grid">
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <rect x="5" y="6" width="22" height="15" rx="2"/>
+                <path d="M11 26h10M16 21v5"/>
+              </svg>
+            </div>
+            <h3>PCs e notebooks</h3>
+            <p>Não liga, tela apagada, teclado falhando, superaquecimento ou queda. Abrimos, testamos e dizemos o que vale trocar.</p>
+          </article>
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 16h12M16 10l6 6-6 6"/>
+                <path d="M24 8v16"/>
+              </svg>
+            </div>
+            <h3>Formatação e backup</h3>
+            <p>Sistema reinstalado e arquivos copiados quando o disco ainda permite. Programas do dia a dia de volta no lugar.</p>
+          </article>
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+                <circle cx="16" cy="16" r="8"/>
+                <path d="M16 8v3M16 21v3M8 16h3M21 16h3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Vírus e lentidão</h3>
+            <p>Malware, anúncios e programas que sobem junto com o Windows. A máquina deixa de brigar para abrir uma pasta.</p>
+          </article>
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+                <rect x="7" y="7" width="18" height="18" rx="3"/>
+                <path d="M12 16h8M16 12v8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Upgrade</h3>
+            <p>SSD, memória e processador no computador que você já tem. Mais rápido, sem comprar uma máquina nova à toa.</p>
+          </article>
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <circle cx="8" cy="16" r="2.5"/>
+                <circle cx="24" cy="9" r="2.5"/>
+                <circle cx="24" cy="23" r="2.5"/>
+                <path d="M10.5 16H20M21.5 11.2 11.2 15M21.5 20.8 11.2 17"/>
+              </svg>
+            </div>
+            <h3>Redes e Wi-Fi</h3>
+            <p>Sinal fraco, internet caindo e cabo bagunçado. Organização do ponto de rede em casa ou na empresa.</p>
+          </article>
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+                <rect x="5" y="8" width="14" height="11" rx="1.5"/>
+                <rect x="13" y="13" width="14" height="11" rx="1.5"/>
+              </svg>
+            </div>
+            <h3>Suporte para empresas</h3>
+            <p>Computadores da equipe, e-mail, impressora e o problema que para o expediente no meio da tarde.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-label="Desktop em manutenção">
+      <img src="images/reparo.jpg" width="1920" height="1080" alt="Interior de um desktop com placa-mãe, cooler e cabos durante a manutenção." loading="lazy">
+      <div class="band-copy">
+        <p class="kicker">Bancada</p>
+        <h2>Hardware aberto, problema localizado.</h2>
+        <p>Limpeza, pasta térmica, fonte, SSD e memória. O que estiver dentro do gabinete é testado antes de virar orçamento.</p>
+      </div>
+    </section>
+
+    <section class="about" id="sobre">
+      <div class="wrap about-grid">
+        <figure class="about-photo">
+          <img src="images/circuito.jpg" width="1920" height="1080" alt="Close de uma placa eletrônica, com chips, capacitores e trilhas." loading="lazy">
+        </figure>
+        <div>
+          <p class="kicker">A oficina</p>
+          <h2>Conversa direta, sem pacote misterioso.</h2>
+          <p class="lede">A J.V TECH é serviço de informática para quem precisa da máquina de volta. O diagnóstico vem em linguagem comum: o que quebrou, o que custa e em quanto tempo fica pronto.</p>
+          <ul class="points">
+            <li><i></i><div><strong>Peça só com autorização</strong><span>Nada é trocado no escuro. Você aprova o item e o valor.</span></div></li>
+            <li><i></i><div><strong>Prazo combinado</strong><span>A data é dita na hora do orçamento, não depois que a máquina já ficou na oficina.</span></div></li>
+            <li><i></i><div><strong>Casa, empresa ou acesso remoto</strong><span>Formatação e vírus muitas vezes se resolvem à distância. Hardware pede a bancada.</span></div></li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-ink" href="#contato">Falar com a J.V TECH</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" id="trabalhos">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Imagens</p>
+          <h2>O tipo de trabalho, em detalhe.</h2>
+          <p class="lede">Cenas de hardware, software e ambiente de empresa. Fotos ilustrativas em Full HD.</p>
+        </div>
+        <div class="mosaic">
+          <figure>
+            <img src="images/servidores.jpg" width="1920" height="1080" alt="Racks de servidores com cabos de rede organizados e luzes de status." loading="lazy">
+            <figcaption>Redes e ambiente de empresa</figcaption>
+          </figure>
+          <figure>
+            <img src="images/notebook.jpg" width="1920" height="1080" alt="Notebook sobre a mesa de trabalho, com código na tela e outro monitor ao fundo." loading="lazy">
+            <figcaption>Software, backup e formatação</figcaption>
+          </figure>
+          <figure>
+            <img src="images/componentes.jpg" width="1920" height="1080" alt="Processador encaixado na placa-mãe durante um upgrade." loading="lazy">
+            <figcaption>Upgrade de processador e memória</figcaption>
+          </figure>
+          <figure>
+            <img src="images/equipe.jpg" width="1920" height="1080" alt="Mesa vista de cima com vários notebooks, telefones e um HD externo." loading="lazy">
+            <figcaption>Vários equipamentos, um suporte</figcaption>
+          </figure>
+          <figure>
+            <img src="images/seguranca.jpg" width="1920" height="1080" alt="Diagrama de circuito iluminado, em close." loading="lazy">
+            <figcaption>Leitura de placa e circuito</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="atendimento">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Atendimento</p>
+          <h2>Três passos, sem fila de robô.</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <span>01</span>
+            <h3>Você conta o problema</h3>
+            <p>Pelo formulário, telefone ou mensagem. O que a máquina faz, desde quando, e se desligou sozinha.</p>
+          </li>
+          <li>
+            <span>02</span>
+            <h3>Diagnóstico e valor</h3>
+            <p>A oficina testa e devolve uma resposta curta: causa, preço e prazo. Seguir ou não é uma decisão sua.</p>
+          </li>
+          <li>
+            <span>03</span>
+            <h3>Conserto e entrega</h3>
+            <p>Serviço feito, máquina testada e uma explicação do que mudou. O trabalho executado tem garantia.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Dúvidas</p>
+          <h2>Antes de deixar o computador.</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Precisa formatar toda vez?</summary>
+            <p>Não. Formatação entra quando o sistema não se recupera ou quando você pede uma instalação limpa. Se o defeito é peça, o Windows fica.</p>
+          </details>
+          <details>
+            <summary>Vocês buscam a máquina?</summary>
+            <p>O atendimento pode ser no local, na oficina ou remoto. A forma certa depende do defeito e é combinada no primeiro contato.</p>
+          </details>
+          <details>
+            <summary>Meus arquivos são apagados?</summary>
+            <p>Backup vem antes de uma formatação, quando o disco ainda lê. Se o disco não responde, isso é dito antes de qualquer promessa.</p>
+          </details>
+          <details>
+            <summary>Atendem empresa pequena?</summary>
+            <p>Sim. Computadores da equipe, rede, impressora e aquele chamado que não pode esperar a segunda-feira.</p>
+          </details>
+          <details>
+            <summary>Como funciona a garantia?</summary>
+            <p>O serviço executado pela J.V TECH tem garantia. Peça nova segue a garantia do fabricante, informada no orçamento.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contato">
+      <div class="wrap contact-grid">
+        <figure class="contact-card">
+          <img src="images/equipe.jpg" width="1920" height="1080" alt="" loading="lazy">
+          <div>
+            <p class="kicker">Contato</p>
+            <h2>Peça o orçamento.</h2>
+            <p>Segunda a sexta, 9h–18h · Sábado, 9h–13h</p>
+            <p><a href="tel:+5500000000000">(00) 00000-0000</a></p>
+            <p><a href="mailto:contato@jvtech.com.br">contato@jvtech.com.br</a></p>
+          </div>
+        </figure>
+        <form class="form" id="orcamento">
+          <h2>Conte o que a máquina está fazendo.</h2>
+          <div class="fields">
+            <label>Nome
+              <input name="nome" autocomplete="name" required>
+            </label>
+            <label>Telefone
+              <input name="telefone" type="tel" autocomplete="tel" required>
+            </label>
+            <label class="span-2">Serviço
+              <select name="servico" required>
+                <option value="">Escolha</option>
+                <option>Conserto de PC ou notebook</option>
+                <option>Formatação e backup</option>
+                <option>Vírus e lentidão</option>
+                <option>Upgrade</option>
+                <option>Rede e Wi-Fi</option>
+                <option>Suporte para empresa</option>
+              </select>
+            </label>
+            <label class="span-2">O que aconteceu
+              <textarea name="mensagem" required placeholder="Ex.: o notebook liga e a tela fica preta."></textarea>
+            </label>
+          </div>
+          <button class="btn btn-primary" type="submit">Enviar pedido</button>
+          <p class="fine">Retornamos em horário comercial.</p>
+        </form>
+        <div class="form ok" id="orcamento-ok" hidden role="status">
+          <p class="kicker">Pedido anotado</p>
+          <h3>Pedido anotado.</h3>
+          <p class="lede">Ligue ou escreva para a J.V TECH para confirmar o horário do atendimento.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <a class="brand" href="#topo">
+        <svg class="brand-mark" viewBox="0 0 128 128" aria-hidden="true"><use href="#mark"/></svg>
+        <span><span class="brand-name">J.V</span><span class="brand-tech">TECH</span></span>
+      </a>
+      <nav class="footer-links" aria-label="Rodapé">
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">A oficina</a>
+        <a href="#trabalhos">Imagens</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+    <div class="wrap">
+      <p class="legal">© 2026 J.V TECH. Serviços de TI e conserto de computadores. Fotos ilustrativas.</p>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.querySelector(".site-header");
+    const menuBtn = document.querySelector(".menu-btn");
+    const menu = document.querySelector("#menu");
+    const form = document.querySelector("#orcamento");
+    const done = document.querySelector("#orcamento-ok");
+
+    const onScroll = () => header.classList.toggle("is-stuck", window.scrollY > 8);
+    onScroll();
+    document.addEventListener("scroll", onScroll, { passive: true });
+
+    const setMenu = (open) => {
+      menu.classList.toggle("is-open", open);
+      menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.querySelector(".sr").textContent = open ? "Fechar menu" : "Abrir menu";
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+
+    menuBtn.addEventListener("click", () => {
+      setMenu(!menu.classList.contains("is-open"));
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menu.classList.contains("is-open")) {
+        setMenu(false);
+        menuBtn.focus();
+      }
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      form.hidden = true;
+      done.hidden = false;
+    });
+  </script>
+</body>
+</html>
