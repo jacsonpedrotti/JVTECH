@@ -177,6 +177,10 @@
     .lede { font-size: 18px; color: var(--mist); max-width: 38em; }
     .hero .lede { margin: 18px 0 0; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .hero-stage {
+      perspective: 1400px;
+      padding: 12px 6px 8px;
+    }
     .hero-photo {
       margin: 0;
       position: relative;
@@ -185,9 +189,33 @@
       aspect-ratio: 1 / 1;
       max-height: 640px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+      transform-style: preserve-3d;
+      transform: translate3d(0, 0, 0) rotateX(7deg) rotateY(-12deg);
+      animation: rog-float 7s ease-in-out infinite;
+      box-shadow:
+        0 28px 50px rgba(0, 0, 0, 0.38),
+        0 0 36px rgba(43, 126, 239, 0.22);
+      will-change: transform;
     }
+    .hero-photo.is-tilting { animation: none; }
     .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .hero-stage::after {
+      content: "";
+      display: block;
+      height: 26px;
+      margin: 14px 14% 0;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5), transparent 70%);
+      animation: rog-shadow 7s ease-in-out infinite;
+    }
+    @keyframes rog-float {
+      0%, 100% { transform: translate3d(0, 0, 0) rotateX(7deg) rotateY(-12deg); }
+      50% { transform: translate3d(0, -18px, 28px) rotateX(2deg) rotateY(11deg); }
+    }
+    @keyframes rog-shadow {
+      0%, 100% { transform: scaleX(1); opacity: 0.75; }
+      50% { transform: scaleX(0.78); opacity: 0.32; }
+    }
     .hero-photo figcaption {
       position: absolute;
       left: 16px;
@@ -488,7 +516,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .whats-float, .whats-float::before { animation: none; }
+      .whats-float, .whats-float::before, .hero-photo, .hero-stage::after { animation: none; }
     }
   </style>
 </head>
@@ -524,10 +552,12 @@
             <a class="btn btn-ghost" href="#servicos">Ver serviços</a>
           </div>
         </div>
-        <figure class="hero-photo">
-          <img src="images/rog-front.jpg" width="1920" height="1920" alt="ROG Strix SCAR 18 de 2026 aberto, com tela ROG Strix e iluminação RGB azul e rosa." fetchpriority="high">
-          <figcaption>ROG Strix SCAR 18 (2026)</figcaption>
-        </figure>
+        <div class="hero-stage">
+          <figure class="hero-photo">
+            <img src="images/rog-front.jpg" width="1920" height="1920" alt="ROG Strix SCAR 18 de 2026 aberto, com tela ROG Strix e iluminação RGB azul e rosa." fetchpriority="high">
+            <figcaption>ROG Strix SCAR 18 (2026)</figcaption>
+          </figure>
+        </div>
       </div>
       <div class="wrap trust">
         <p><strong>Diagnóstico primeiro</strong><span>Você sabe o que será feito antes de autorizar.</span></p>
@@ -826,6 +856,26 @@
         menuBtn.focus();
       }
     });
+
+    const rogStage = document.querySelector(".hero-stage");
+    const rogPhoto = document.querySelector(".hero-photo");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (rogStage && rogPhoto && !reduceMotion) {
+      const tilt = (event) => {
+        const box = rogStage.getBoundingClientRect();
+        const x = (event.clientX - box.left) / box.width - 0.5;
+        const y = (event.clientY - box.top) / box.height - 0.5;
+        rogPhoto.classList.add("is-tilting");
+        rogPhoto.style.transform = `translate3d(0, -10px, 36px) rotateX(${(-y * 16).toFixed(2)}deg) rotateY(${(x * 20).toFixed(2)}deg)`;
+      };
+      const release = () => {
+        rogPhoto.classList.remove("is-tilting");
+        rogPhoto.style.transform = "";
+      };
+      rogStage.addEventListener("pointermove", tilt);
+      rogStage.addEventListener("pointerleave", release);
+    }
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
