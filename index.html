@@ -6,7 +6,7 @@
   <title>J.V Business — Conserto de computadores e serviços de TI</title>
   <meta name="description" content="J.V Business faz conserto de computadores e notebooks, formatação, upgrade e suporte de TI. Diagnóstico claro e orçamento antes da peça.">
   <meta name="theme-color" content="#090d12">
-  <link rel="icon" href="images/logo-jv.svg" type="image/svg+xml">
+  <link rel="icon" href="images/logo-jvtech.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
       --muted: #5c6b78;
       --mist: #c5d0db;
       --line: rgba(16, 24, 32, 0.1);
-      --header: 112px;
+      --header: 156px;
     }
 
     * { box-sizing: border-box; }
@@ -102,16 +102,11 @@
       margin-right: auto;
     }
     .brand-mark {
-      width: 92px;
-      height: 92px;
+      width: auto;
+      height: 140px;
       flex: none;
-      border-radius: 50%;
-      box-shadow:
-        0 0 0 2px rgba(142, 196, 255, 0.7),
-        0 0 24px rgba(43, 126, 239, 0.55),
-        0 10px 28px rgba(0, 0, 0, 0.45);
     }
-    .site-footer .brand-mark { width: 76px; height: 76px; }
+    .site-footer .brand-mark { height: 180px; }
     .brand-name { font-weight: 700; font-size: 30px; letter-spacing: -0.05em; }
     .brand-tech {
       margin-left: 8px;
@@ -390,18 +385,39 @@
     .fine { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
     .ok h3 { margin: 8px 0; font-size: 32px; }
 
-    .site-footer { background: #070b10; color: var(--mist); padding: 36px 0 28px; }
-    .footer-grid {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
+    .site-footer {
+      background: #070b10;
+      color: var(--mist);
+      padding: 56px 0 32px;
+      border-top: 1px solid rgba(142, 243, 232, 0.14);
     }
-    .footer-links { display: flex; gap: 18px; }
-    .footer-links a { color: var(--mist); text-decoration: none; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 0.8fr;
+      gap: 36px 48px;
+      align-items: start;
+    }
+    .footer-brand p { margin: 14px 0 0; max-width: 34em; line-height: 1.55; }
+    .footer-col { display: grid; gap: 10px; align-content: start; padding-top: 8px; }
+    .footer-col p { margin: 0; }
+    .footer-label {
+      margin: 0 0 4px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--copper);
+    }
+    .footer-col a { color: var(--cyan); text-decoration: none; }
+    .footer-col a:hover { color: #fff; }
+    .footer-links a { color: var(--mist); }
     .footer-links a:hover { color: #fff; }
-    .legal { margin: 22px 0 0; font-size: 13px; }
+    .footer-bottom {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .legal { margin: 0; font-size: 13px; }
 
     .whats-float {
       position: fixed;
@@ -438,12 +454,14 @@
 
     @media (max-width: 980px) {
       .hero-inner, .about-grid, .contact-grid, .service-grid, .steps { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
       .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 240px; }
       .trust { grid-template-columns: 1fr; }
     }
     @media (max-width: 800px) {
-      :root { --header: 92px; }
-      .brand-mark, .site-footer .brand-mark { width: 68px; height: 68px; }
+      :root { --header: 128px; }
+      .brand-mark, .site-footer .brand-mark { height: 112px; width: auto; }
       .brand-name { font-size: 22px; }
       .brand-tech { font-size: 13px; }
       .menu-btn { display: inline-block; }
@@ -460,7 +478,7 @@
       }
       .nav.is-open { display: flex; }
       .nav a { font-size: 22px; color: #f7f4ee; }
-      .hero-inner, .about-grid, .contact-grid, .service-grid, .steps, .fields { grid-template-columns: 1fr; }
+      .hero-inner, .about-grid, .contact-grid, .service-grid, .steps, .fields, .footer-grid { grid-template-columns: 1fr; }
       .hero-photo { aspect-ratio: 1 / 1; max-height: none; }
       .mosaic { grid-template-columns: 1fr; grid-template-rows: none; }
       .mosaic figure, .mosaic figure:first-child { min-height: 240px; grid-column: auto; }
@@ -478,9 +496,8 @@
   <a class="skip" href="#conteudo">Ir para o conteúdo</a>
 
   <header class="site-header">
-    <a class="brand" href="#topo" aria-label="J.V Business, início">
-      <img class="brand-mark" src="images/logo-jv.svg" width="92" height="92" alt="Logo J.V. Business">
-      <span><span class="brand-name">J.V</span><span class="brand-tech">BUSINESS</span></span>
+    <a class="brand" href="#topo" aria-label="J.V Tech, início">
+      <img class="brand-mark" src="images/logo-jvtech.png" width="642" height="668" alt="J.V Tech, manutenção de hardware">
     </a>
     <nav class="nav" id="menu" aria-label="Seções">
       <a href="#servicos">Serviços</a>
@@ -745,19 +762,29 @@
 
   <footer class="site-footer">
     <div class="wrap footer-grid">
-      <a class="brand" href="#topo">
-        <img class="brand-mark" src="images/logo-jv.svg" width="92" height="92" alt="Logo J.V. Business">
-        <span><span class="brand-name">J.V</span><span class="brand-tech">BUSINESS</span></span>
-      </a>
-      <nav class="footer-links" aria-label="Rodapé">
+      <div class="footer-brand">
+        <a class="brand" href="#topo" aria-label="J.V Tech, início">
+          <img class="brand-mark" src="images/logo-jvtech.png" width="642" height="668" alt="J.V Tech, manutenção de hardware">
+        </a>
+        <p>Conserto de computadores e notebooks, formatação, upgrade e suporte de TI.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-label">Contato</p>
+        <p><a href="https://wa.me/5548998519394?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20J.V%20Business%20e%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener noreferrer">WhatsApp (48) 99851-9394</a></p>
+        <p><a href="mailto:contato@jvtech.com.br">contato@jvtech.com.br</a></p>
+        <p>Segunda a sexta, 9h–18h</p>
+        <p>Sábado, 9h–13h</p>
+      </div>
+      <nav class="footer-col footer-links" aria-label="Rodapé">
+        <p class="footer-label">No site</p>
         <a href="#servicos">Serviços</a>
         <a href="#sobre">A oficina</a>
         <a href="#trabalhos">Imagens</a>
         <a href="#contato">Contato</a>
       </nav>
     </div>
-    <div class="wrap">
-      <p class="legal">© 2026 J.V Business. Serviços de TI e conserto de computadores. Fotos ilustrativas.</p>
+    <div class="wrap footer-bottom">
+      <p class="legal">© 2026 J.V Tech. Conserto de computadores e serviços de TI.</p>
     </div>
   </footer>
 
